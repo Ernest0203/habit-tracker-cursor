@@ -1,0 +1,10 @@
+# Альтернатива Render: только API (фронт — отдельно на Render Static или Vercel)
+# https://railway.app → New Project → Deploy from GitHub → Root Directory: server
+
+[build]
+builder = "NIXPACKS"
+
+[deploy]
+startCommand = "npm start"
+healthcheckPath = "/api/health"
+restartPolicyType = "ON_FAILURE"
