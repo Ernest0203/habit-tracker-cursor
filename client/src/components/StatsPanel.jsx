@@ -1,3 +1,5 @@
+import { weekDates } from '../utils/dates.js';
+
 export default function StatsPanel({ habits, allEntries }) {
   const completedEntries = allEntries.filter((e) => e.completed);
   const totalCompletions = completedEntries.length;
@@ -9,7 +11,7 @@ export default function StatsPanel({ habits, allEntries }) {
     return Math.max(max, calcBestStreak(habitEntries.map((e) => e.date), habit.frequency));
   }, 0);
 
-  const weekDays = getWeekDates();
+  const weekDays = weekDates();
   const weekSlots = habits.length * 7;
   const weekCompleted = completedEntries.filter((e) => weekDays.includes(e.date)).length;
   const completionRate =
@@ -75,21 +77,3 @@ function formatDate(d) {
   return `${y}-${m}-${day}`;
 }
 
-function getWeekDates() {
-  const days = [];
-  const d = new Date();
-  const dayOfWeek = d.getDay();
-  const mondayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
-  const monday = new Date(d);
-  monday.setDate(d.getDate() + mondayOffset);
-
-  for (let i = 0; i < 7; i++) {
-    const date = new Date(monday);
-    date.setDate(monday.getDate() + i);
-    const y = date.getFullYear();
-    const m = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    days.push(`${y}-${m}-${day}`);
-  }
-  return days;
-}

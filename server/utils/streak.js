@@ -16,13 +16,13 @@ function addDays(date, n) {
   return d;
 }
 
-export function calculateStreak(entries, frequency = 'daily') {
+export function calculateStreak(entries, frequency = 'daily', todayOverride) {
   const completed = new Set(
     entries.filter((e) => e.completed).map((e) => e.date)
   );
   if (completed.size === 0) return 0;
 
-  const today = formatDate(new Date());
+  const today = todayOverride || formatDate(new Date());
   let cursor = parseDate(today);
 
   if (!completed.has(today)) {

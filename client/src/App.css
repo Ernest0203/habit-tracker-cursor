@@ -45,6 +45,11 @@ body {
   margin-top: 4px;
 }
 
+.header-tz {
+  color: #666680;
+  font-size: 0.8rem;
+}
+
 /* Glass card */
 .card {
   background: rgba(255, 255, 255, 0.04);
@@ -300,6 +305,58 @@ body {
 }
 
 /* Heatmap */
+.heatmap-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.heatmap-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.heatmap-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #8888a0;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.heatmap-legend {
+  display: flex;
+  gap: 12px;
+  font-size: 0.7rem;
+  color: #8888a0;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.legend-empty {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.heatmap-hint {
+  font-size: 0.7rem;
+  color: #666680;
+  line-height: 1.4;
+}
+
 .heatmap {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -311,6 +368,11 @@ body {
   border-radius: 4px;
   background: rgba(255, 255, 255, 0.06);
   transition: background 200ms ease, transform 200ms ease;
+}
+
+.heatmap-cell.today {
+  outline: 1px solid rgba(255, 255, 255, 0.35);
+  outline-offset: 1px;
 }
 
 .heatmap-cell.completed {

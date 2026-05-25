@@ -29,14 +29,14 @@ export default function HabitCard({
         <div className="habit-actions">
           <div className="streak-badge" style={{ '--accent': habit.color }}>
             <span className="streak-number">{habit.streak ?? 0}</span>
-            <span className="streak-label">streak</span>
+            <span className="streak-label">подряд</span>
           </div>
           <button
             type="button"
             className={`habit-checkbox ${todayCompleted ? 'checked' : ''} ${animating ? 'animating' : ''}`}
             style={{ '--accent': habit.color }}
             onClick={handleToggle}
-            aria-label={todayCompleted ? 'Mark incomplete' : 'Mark complete'}
+            aria-label={todayCompleted ? 'Снять отметку за сегодня' : 'Отметить за сегодня'}
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
               <polyline points="20 6 9 17 4 12" />

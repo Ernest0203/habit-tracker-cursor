@@ -4,12 +4,13 @@ import {
   deleteHabit,
   fetchEntries,
   fetchHabits,
-  todayString,
   toggleEntry,
 } from './api.js';
 import AddHabitModal from './components/AddHabitModal.jsx';
 import HabitCard from './components/HabitCard.jsx';
 import StatsPanel from './components/StatsPanel.jsx';
+import { useLocalDay } from './hooks/useLocalDay.js';
+import { formatDisplayDate } from './utils/dates.js';
 
 export default function App() {
   const [habits, setHabits] = useState([]);
@@ -18,8 +19,6 @@ export default function App() {
   const [modalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  const today = todayString();
 
   const loadData = useCallback(async () => {
     try {
@@ -44,6 +43,8 @@ export default function App() {
       setLoading(false);
     }
   }, []);
+
+  const { today, timezoneLabel } = useLocalDay(loadData);
 
   useEffect(() => {
     loadData();
@@ -77,7 +78,10 @@ export default function App() {
       <header className="header">
         <div className="header-content">
           <h1>Habit Tracker</h1>
-          <p className="header-date">{formatDisplayDate(today)}</p>
+          <p className="header-date">
+            {formatDisplayDate(today)}
+            <span className="header-tz"> · день сбрасывается в 00:00 ({timezoneLabel})</span>
+          </p>
         </div>
         <button type="button" className="btn-primary" onClick={() => setModalOpen(true)}>
           + Add Habit
@@ -94,7 +98,7 @@ export default function App() {
         <StatsPanel habits={habits} allEntries={allEntries} />
 
         <section className="today-section">
-          <h2 className="section-title">Today</h2>
+          <h2 className="section-title">Сегодня</h2>
           {loading ? (
             <p className="empty-state">Loading habits…</p>
           ) : habits.length === 0 ? (
@@ -123,13 +127,4 @@ export default function App() {
       />
     </div>
   );
-}
-
-function formatDisplayDate(dateStr) {
-  const [y, m, d] = dateStr.split('-').map(Number);
-  return new Date(y, m - 1, d).toLocaleDateString('en-US', {
-    weekday: 'long',
-    month: 'long',
-    day: 'numeric',
-  });
 }

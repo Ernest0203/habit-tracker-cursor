@@ -2,16 +2,21 @@ import { Router } from 'express';
 import Habit from '../models/Habit.js';
 import Entry from '../models/Entry.js';
 import { calculateStreak } from '../utils/streak.js';
+import { isValidTimezone, todayInTimezone } from '../utils/timezone.js';
 
 const router = Router();
 
 router.get('/', async (req, res) => {
   try {
+    const tz = req.query.tz;
+    const today =
+      isValidTimezone(tz) ? todayInTimezone(tz) : undefined;
+
     const habits = await Habit.find().sort({ createdAt: -1 });
     const habitsWithStreak = await Promise.all(
       habits.map(async (habit) => {
         const entries = await Entry.find({ habitId: habit._id });
-        const streak = calculateStreak(entries, habit.frequency);
+        const streak = calculateStreak(entries, habit.frequency, today);
         return { ...habit.toObject(), streak };
       })
     );
